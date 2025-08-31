@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+// Removed unused Card imports
 import { useAuth } from '@/lib/auth'
 import { isValidEmail } from '@/lib/utils'
 import { Spinner } from '@/components/ui/spinner'

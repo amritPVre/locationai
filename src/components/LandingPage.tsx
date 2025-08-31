@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { ArrowRight, Brain, Map, BarChart3, Shield, Zap, Users, CheckCircle, Star, ChevronDown, Menu, X } from 'lucide-react'
+import { ArrowRight, Brain, Map, BarChart3, Shield, Zap, Users, CheckCircle, Star, Menu, X } from 'lucide-react'
 
 interface LandingPageProps {
   onGetStarted: () => void

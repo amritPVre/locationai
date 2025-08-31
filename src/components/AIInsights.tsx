@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { useAuth } from '@/lib/auth'
@@ -183,13 +183,11 @@ export function AIInsights() {
     setFetchingContext(true)
 
     try {
-      const [location, railwayStation, airport, highways, population] = await Promise.allSettled([
+      const [location, railwayStation, airport, highways] = await Promise.allSettled([
         reverseGeocode(office.latitude, office.longitude),
         findNearestRailwayStation(office.latitude, office.longitude),
         findNearestAirport(office.latitude, office.longitude),
-        findNearbyHighways(office.latitude, office.longitude),
-        // We'll get population after we have the city name
-        Promise.resolve(null)
+        findNearbyHighways(office.latitude, office.longitude)
       ])
 
       const locationResult = location.status === 'fulfilled' ? location.value : null
@@ -205,11 +203,11 @@ export function AIInsights() {
       }
 
       const contextData: ContextualData = {
-        location: locationResult,
-        railwayStation: railwayStation.status === 'fulfilled' ? railwayStation.value : undefined,
-        airport: airport.status === 'fulfilled' ? airport.value : undefined,
+        location: locationResult || undefined,
+        railwayStation: railwayStation.status === 'fulfilled' ? railwayStation.value || undefined : undefined,
+        airport: airport.status === 'fulfilled' ? airport.value || undefined : undefined,
         highways: highways.status === 'fulfilled' ? highways.value : undefined,
-        population: populationResult
+        population: populationResult || undefined
       }
 
       setContextualData(contextData)
@@ -407,8 +405,6 @@ export function AIInsights() {
         orange: 'from-orange-50 to-orange-100 border-orange-500 text-orange-900',
         teal: 'from-teal-50 to-teal-100 border-teal-500 text-teal-900'
       }
-
-      const colorClass = colorClasses[section.color as keyof typeof colorClasses] || colorClasses.blue
 
       return (
         <div

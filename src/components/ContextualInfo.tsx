@@ -79,13 +79,11 @@ export function ContextualInfo() {
 
     try {
       // Fetch all contextual information in parallel
-      const [location, railwayStation, airport, highways, population] = await Promise.allSettled([
+      const [location, railwayStation, airport, highways] = await Promise.allSettled([
         reverseGeocode(office.latitude, office.longitude),
         findNearestRailwayStation(office.latitude, office.longitude),
         findNearestAirport(office.latitude, office.longitude),
-        findNearbyHighways(office.latitude, office.longitude),
-        // We'll get population after we have the city name
-        Promise.resolve(null)
+        findNearbyHighways(office.latitude, office.longitude)
       ])
 
       const locationResult = location.status === 'fulfilled' ? location.value : null

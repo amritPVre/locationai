@@ -141,7 +141,7 @@ export async function findNearestAirport(lat: number, lon: number, radiusMeters 
     if (airports.length === 0) return null
 
     // Process airports and get coordinates (handle both nodes and ways)
-    const processedAirports = airports.map(airport => {
+    const processedAirports = airports.map((airport: any) => {
       let airportLat, airportLon
       
       if (airport.type === 'way' && airport.center) {
@@ -158,12 +158,12 @@ export async function findNearestAirport(lat: number, lon: number, radiusMeters 
         lon: airportLon,
         distance: haversineDistance(lat, lon, airportLat, airportLon)
       }
-    }).filter(airport => airport.lat && airport.lon)
+    }).filter((airport: any) => airport.lat && airport.lon)
 
     if (processedAirports.length === 0) return null
 
     // Find the closest airport
-    const closest = processedAirports.reduce((prev, curr) => 
+    const closest = processedAirports.reduce((prev: any, curr: any) => 
       prev.distance < curr.distance ? prev : curr
     )
 
