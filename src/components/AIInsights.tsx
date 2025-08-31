@@ -398,14 +398,6 @@ export function AIInsights() {
 
     // Render sections
     return sections.map((section, index) => {
-      const colorClasses = {
-        emerald: 'from-emerald-50 to-emerald-100 border-emerald-500 text-emerald-900',
-        blue: 'from-blue-50 to-blue-100 border-blue-500 text-blue-900',
-        purple: 'from-purple-50 to-purple-100 border-purple-500 text-purple-900',
-        orange: 'from-orange-50 to-orange-100 border-orange-500 text-orange-900',
-        teal: 'from-teal-50 to-teal-100 border-teal-500 text-teal-900'
-      }
-
       return (
         <div
           key={index}
