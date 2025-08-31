@@ -1,0 +1,147 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Dark Luxury Theme - Blue/Violet */
+    --background: 240 10% 3.9%; /* Deep dark blue-black */
+    --foreground: 240 20% 95%; /* Near white with slight blue tint */
+    --card: 240 8% 8%; /* Dark card background */
+    --card-foreground: 240 15% 92%;
+    --popover: 240 8% 6%;
+    --popover-foreground: 240 15% 92%;
+    --primary: 262 83% 58%; /* Luxury purple-blue */
+    --primary-foreground: 240 20% 98%;
+    --secondary: 240 12% 12%; /* Darker secondary */
+    --secondary-foreground: 240 15% 85%;
+    --muted: 240 8% 15%;
+    --muted-foreground: 240 10% 65%;
+    --accent: 258 90% 66%; /* Bright violet accent */
+    --accent-foreground: 240 20% 95%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 240 20% 98%;
+    --border: 240 8% 18%; /* Subtle borders */
+    --input: 240 8% 12%;
+    --ring: 262 83% 58%;
+    --radius: 0.75rem;
+    
+    /* Custom luxury colors */
+    --luxury-gradient-start: 262 83% 58%;
+    --luxury-gradient-end: 258 90% 66%;
+    --glass-bg: 240 8% 8% / 0.8;
+    --glow-color: 262 83% 58%;
+    --success: 142 76% 36%;
+    --warning: 38 92% 50%;
+    --info: 199 89% 48%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    background: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(240 8% 6%) 100%);
+    min-height: 100vh;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  /* Glass morphism effect */
+  .glass {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Luxury gradient backgrounds */
+  .luxury-gradient {
+    background: linear-gradient(135deg, hsl(var(--luxury-gradient-start)) 0%, hsl(var(--luxury-gradient-end)) 100%);
+  }
+  
+  .luxury-gradient-border {
+    background: linear-gradient(135deg, hsl(var(--luxury-gradient-start)) 0%, hsl(var(--luxury-gradient-end)) 100%);
+    padding: 1px;
+    border-radius: calc(var(--radius) + 1px);
+  }
+  
+  /* Glow effects */
+  .glow {
+    box-shadow: 0 0 20px hsla(var(--glow-color), 0.3);
+  }
+  
+  .glow-strong {
+    box-shadow: 0 0 30px hsla(var(--glow-color), 0.5), 0 0 60px hsla(var(--glow-color), 0.2);
+  }
+  
+  /* Premium card styles */
+  .premium-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+  
+  /* Animated gradient text */
+  .gradient-text {
+    background: linear-gradient(135deg, hsl(var(--luxury-gradient-start)) 0%, hsl(var(--luxury-gradient-end)) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% 200%;
+    animation: gradientShift 3s ease infinite;
+  }
+  
+  @keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+  
+  /* Floating animation */
+  .float {
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-5px); }
+  }
+  
+  /* Pulse glow animation */
+  .pulse-glow {
+    animation: pulseGlow 2s ease-in-out infinite alternate;
+  }
+  
+  @keyframes pulseGlow {
+    from { box-shadow: 0 0 20px hsla(var(--glow-color), 0.2); }
+    to { box-shadow: 0 0 30px hsla(var(--glow-color), 0.4); }
+  }
+}
+
+/* Leaflet CSS fixes */
+.leaflet-container {
+  height: 100%;
+  width: 100%;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 0.375rem;
+}
+
+.leaflet-control-zoom {
+  border-radius: 0.375rem !important;
+  border: none !important;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+}
+
+.leaflet-control-zoom a {
+  border-radius: 0.375rem !important;
+  border: none !important;
+}
