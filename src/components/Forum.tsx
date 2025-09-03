@@ -11,11 +11,11 @@ import {
   Calendar, 
   Clock,
   CheckCircle,
-  AlertCircle,
+
   Lightbulb,
   Bug,
   HelpCircle,
-  Star,
+
   TrendingUp,
   Search,
   Filter,
@@ -89,7 +89,7 @@ const getPriorityColor = (priority: string) => {
   }
 }
 
-export function Forum({ onPostClick, onCreatePost }: { 
+export function Forum({ onPostClick, onCreatePost: _onCreatePost }: { 
   onPostClick?: (slug: string) => void
   onCreatePost?: () => void 
 }) {
@@ -121,7 +121,7 @@ export function Forum({ onPostClick, onCreatePost }: {
       const { data: postsData, error: postsError } = await supabase
         .from('forum_posts')
         .select('*')
-        .order('last_reply_at', { ascending: false, nullsLast: true })
+        .order('last_reply_at', { ascending: false, nullsFirst: false })
         .order('created_at', { ascending: false })
         .limit(50)
 

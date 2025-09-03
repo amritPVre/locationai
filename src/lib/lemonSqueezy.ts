@@ -60,50 +60,50 @@ export async function getSubscriptionPlans(): Promise<SubscriptionPlan[]> {
 }
 
 // Get user's active subscription - Returns null since payment is coming soon
-export async function getUserSubscription(userId: string): Promise<UserSubscription | null> {
+export async function getUserSubscription(_userId: string): Promise<UserSubscription | null> {
   // Return null since payment integration is coming soon
   return null
 }
 
 // Create checkout URL - Coming soon
 export async function createCheckoutUrl(
-  planId: string,
-  userId: string,
-  userEmail: string,
-  billingCycle: 'monthly' | 'yearly' = 'monthly'
+  _planId: string,
+  _userId: string,
+  _userEmail: string,
+  _billingCycle: 'monthly' | 'yearly' = 'monthly'
 ): Promise<string> {
   throw new Error('Payment integration coming soon! We are working on bringing you the best payment experience.')
 }
 
 // Create customer portal URL - Coming soon
-export async function createCustomerPortalUrl(userId: string): Promise<string> {
+export async function createCustomerPortalUrl(_userId: string): Promise<string> {
   throw new Error('Customer portal coming soon!')
 }
 
 // Cancel subscription - Coming soon  
-export async function cancelSubscription(userId: string): Promise<boolean> {
+export async function cancelSubscription(_userId: string): Promise<boolean> {
   throw new Error('Subscription management coming soon!')
 }
 
 // Track feature usage - Disabled
 export async function trackFeatureUsage(
-  userId: string,
+  _userId: string,
   feature: string,
   creditsUsed: number = 1,
-  metadata: any = {}
+  _metadata: any = {}
 ): Promise<void> {
   // Feature usage tracking disabled - payment system coming soon
   console.log(`Feature usage: ${feature} (${creditsUsed} credits) - tracking disabled`)
 }
 
 // Check if user can use a feature based on their plan
-export async function canUseFeature(userId: string, feature: string): Promise<boolean> {
+export async function canUseFeature(_userId: string, _feature: string): Promise<boolean> {
   // Allow all features since payment is coming soon
   return true
 }
 
 // Format subscription status for display
-export function formatSubscriptionStatus(status: string): { label: string, color: string } {
+export function formatSubscriptionStatus(_status: string): { label: string, color: string } {
   return { label: 'Free Plan', color: 'text-gray-500' }
 }
 

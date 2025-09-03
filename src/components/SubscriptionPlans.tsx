@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useAuth } from '@/lib/auth'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Check, Crown, Star, Zap, Clock } from 'lucide-react'
+import { Check, Star } from 'lucide-react'
 import { 
   getSubscriptionPlans, 
   getUserSubscription, 
-  createCheckoutUrl,
   createCustomerPortalUrl,
   type SubscriptionPlan,
   type UserSubscription,
@@ -48,7 +47,7 @@ export function SubscriptionPlans({ onBack }: SubscriptionPlansProps) {
     }
   }
 
-  const handleSubscribe = async (planId: string, billingCycle: 'monthly' | 'yearly') => {
+  const handleSubscribe = async (_planId: string, _billingCycle: 'monthly' | 'yearly') => {
     // Payment integration coming soon
     alert('🚧 Payment Integration Coming Soon!\n\nWe are working hard to bring you the best payment experience. Stay tuned for updates!')
   }
@@ -178,7 +177,7 @@ export function SubscriptionPlans({ onBack }: SubscriptionPlansProps) {
             const planInfo = getPlanDisplayInfo(plan.name)
             const price = getPlanPrice(plan)
             // Only monthly pricing available
-            const monthlySavings = 0 // No yearly billing available
+
             const isCurrent = isCurrentPlan(plan.id)
             const isPaid = plan.price_monthly > 0
 
@@ -266,7 +265,7 @@ export function SubscriptionPlans({ onBack }: SubscriptionPlansProps) {
                     'Get Started Free'
                   ) : (
                     <>
-                      <Clock className="w-4 h-4 mr-2" />
+                      <Star className="w-4 h-4 mr-2" />
                       Coming Soon
                     </>
                   )}

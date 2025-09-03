@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { useAuth } from '@/lib/auth'
-import { LogOut, Upload, Building, Map, Brain, BarChart3, Shield, MapPin, HelpCircle, CreditCard, Crown, Clock } from 'lucide-react'
-import { formatSubscriptionStatus, type UserSubscription } from '@/lib/lemonSqueezy'
+import { LogOut, Upload, Building, Map, Brain, BarChart3, Shield, MapPin, HelpCircle, CreditCard, Crown } from 'lucide-react'
+import { type UserSubscription } from '@/lib/lemonSqueezy'
 import { getUserCredits } from '@/lib/credits'
 import { FileUpload } from './FileUpload'
 import { OfficeManager } from './OfficeManager'
@@ -26,7 +26,7 @@ export function Dashboard({
 }) {
   const { signOut, user, isAdmin } = useAuth()
   const [activeTab, setActiveTab] = useState<ActiveTab>('upload')
-  const [subscription, setSubscription] = useState<UserSubscription | null>(null)
+  const [subscription] = useState<UserSubscription | null>(null)
   const [credits, setCredits] = useState<number>(0)
 
   // Load credit data only (subscription disabled)

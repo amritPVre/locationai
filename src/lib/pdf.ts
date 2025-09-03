@@ -306,7 +306,7 @@ export function generateSWOTPDF(
     doc.setFont('helvetica', 'normal')
     
     let itemY = quadrant.y + 22
-    quadrant.items.slice(0, 3).forEach((item, index) => {
+    quadrant.items.slice(0, 3).forEach((item) => {
       // Clean and truncate item text - increased length limit
       const cleanItem = item.replace(/^\d+\.\s*|^•\s*|^-\s*/, '')
       const truncatedItem = cleanItem.length > 120 ? cleanItem.substring(0, 117) + '...' : cleanItem
@@ -314,7 +314,7 @@ export function generateSWOTPDF(
       const bulletText = `• ${truncatedItem}`
       const lines = splitTextToLines(doc, bulletText, quadrantWidth - 12, 9)  // More padding and correct font size
       
-      lines.forEach((line, lineIndex) => {
+      lines.forEach((line) => {
         if (itemY < quadrant.y + quadrantHeight - 8) { // More bottom padding
           doc.text(line, quadrant.x + 6, itemY)
           itemY += 5.5  // Better line spacing
@@ -390,14 +390,14 @@ export function generateSWOTPDF(
     doc.setFont('helvetica', 'normal')
     
     let textY = y + 20
-    rec.items.forEach((item, itemIndex) => {
+    rec.items.forEach((item) => {
       const cleanItem = item.replace(/^\d+\.\s*|^•\s*|^-\s*/, '')
       const truncatedItem = cleanItem.length > 140 ? cleanItem.substring(0, 137) + '...' : cleanItem
       const bulletText = `• ${truncatedItem}`
       
       // Use improved text wrapping
       const lines = splitTextToLines(doc, bulletText, contentWidth - 20, 9)
-      lines.forEach((line, lineIndex) => {
+      lines.forEach((line) => {
         if (textY < y + sectionHeight - 5) { // Check if there's space
           doc.text(line, margin + 8, textY)
           textY += 5.5  // Better line spacing

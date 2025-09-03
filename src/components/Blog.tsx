@@ -4,7 +4,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { 
   Calendar, 
   Clock, 
-  User, 
+ 
   Eye, 
   Heart, 
   MessageCircle, 

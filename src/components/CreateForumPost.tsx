@@ -4,12 +4,12 @@ import { Card, CardContent } from '@/components/ui/card'
 import { 
   ArrowLeft,
   Send,
-  Tag,
+
   AlertCircle,
   Lightbulb,
   Bug,
   MessageSquare,
-  Megaphone
+
 } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import { useAuth } from '@/lib/auth'

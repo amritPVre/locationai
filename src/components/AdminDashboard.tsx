@@ -15,8 +15,7 @@ import {
   UserPlus,
   RefreshCw,
   Download,
-  Eye,
-  Edit,
+
   BookOpen,
   MessageSquare
 } from 'lucide-react'
@@ -36,7 +35,7 @@ import { BlogManager } from './admin/BlogManager'
 import { ForumManager } from './admin/ForumManager'
 
 export function AdminDashboard() {
-  const { user } = useAuth()
+  useAuth()
   const [loading, setLoading] = useState(true)
   const [stats, setStats] = useState<AdminStats | null>(null)
   const [users, setUsers] = useState<UserWithCredits[]>([])
@@ -113,14 +112,7 @@ export function AdminDashboard() {
     return credits.toLocaleString()
   }
 
-  const getPlanColor = (plan: string) => {
-    switch (plan) {
-      case 'free': return 'text-gray-400'
-      case 'professional': return 'text-blue-400'
-      case 'enterprise': return 'text-purple-400'
-      default: return 'text-gray-400'
-    }
-  }
+
 
   const getPlanBadge = (plan: string) => {
     const colors = {

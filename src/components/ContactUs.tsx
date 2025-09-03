@@ -1,5 +1,4 @@
-import React from 'react'
-import { ArrowLeft, Mail, MapPin, Phone, Clock } from 'lucide-react'
+import { ArrowLeft, Mail, MapPin, Clock } from 'lucide-react'
 
 interface ContactUsProps {
   onBack?: () => void

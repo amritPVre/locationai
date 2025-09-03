@@ -219,7 +219,7 @@ export function MapView() {
           // Only ignore controls we don't want in the capture
           return element.classList.contains('leaflet-control-zoom')
         },
-        onclone: (clonedDoc, element) => {
+        onclone: (clonedDoc, _element) => {
           // Apply critical fixes for map positioning in the cloned document
           const clonedMapContainer = clonedDoc.querySelector('.leaflet-container') as HTMLElement
           if (clonedMapContainer) {

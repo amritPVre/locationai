@@ -11,14 +11,14 @@ import {
   MessageSquare,
   Pin,
   Lock,
-  CheckCircle,
+
   AlertCircle,
   Lightbulb,
   Bug,
   Megaphone,
   Save,
   X,
-  Filter,
+
   Search
 } from 'lucide-react'
 import { supabase } from '@/lib/supabase'

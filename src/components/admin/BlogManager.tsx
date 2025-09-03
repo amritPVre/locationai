@@ -9,10 +9,10 @@ import {
   Calendar, 
   Tag, 
   User, 
-  Globe,
+
   Save,
   X,
-  Image,
+
   Star,
   Clock
 } from 'lucide-react'

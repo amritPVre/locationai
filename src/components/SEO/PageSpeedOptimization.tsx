@@ -36,9 +36,9 @@ export const loadNonCriticalScripts = () => {
     script.src = 'https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID'
     document.head.appendChild(script)
     
-    window.dataLayer = window.dataLayer || []
+    ;(window as any).dataLayer = (window as any).dataLayer || []
     function gtag(...args: any[]) {
-      window.dataLayer.push(args)
+      ;(window as any).dataLayer.push(args)
     }
     gtag('js', new Date())
     gtag('config', 'GA_MEASUREMENT_ID')
@@ -61,7 +61,7 @@ export function PageSpeedOptimization() {
 }
 
 // Image optimization utility
-export const optimizeImage = (src: string, width?: number, height?: number, quality = 85) => {
+export const optimizeImage = (src: string, _width?: number, _height?: number, _quality = 85) => {
   // In production, you'd use a service like Cloudinary or similar
   // For now, return the original src with WebP fallback
   const supportsWebP = () => {
