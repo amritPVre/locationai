@@ -316,9 +316,9 @@ export function PrivacyPolicy({ onBack }: PrivacyPolicyProps) {
                   If you have any questions about this Privacy Policy or our data practices, please contact us:
                 </p>
                 <div className="space-y-2 text-muted-foreground">
-                  <p><strong>Email:</strong> privacy@locationai.com</p>
-                  <p><strong>Address:</strong> 123 Innovation Drive, Tech City, TC 12345</p>
-                  <p><strong>Data Protection Officer:</strong> dpo@locationai.com</p>
+                  <p><strong>Email:</strong> solarapp98@gmail.com</p>
+                  <p><strong>Address:</strong> 185/12, Central Park, G.T Road, Burdwan - 713103</p>
+                  <p><strong>Data Protection Officer:</strong> solarapp98@gmail.com</p>
                 </div>
               </div>
             </section>
