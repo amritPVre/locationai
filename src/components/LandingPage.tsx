@@ -1,13 +1,33 @@
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { ArrowRight, Brain, Map, BarChart3, Shield, Zap, Users, CheckCircle, Star, Menu, X } from 'lucide-react'
+import { 
+  ArrowRight, 
+  Brain, 
+  Shield, 
+  Zap, 
+  CheckCircle, 
+  Star, 
+  Menu, 
+  X,
+  Sparkles,
+  TrendingUp,
+  Globe,
+  Target,
+  MapPin,
+  Building,
+  Truck,
+  Users
+} from 'lucide-react'
 
 interface LandingPageProps {
   onGetStarted: () => void
   onPrivacyClick?: () => void
+  onBlogClick?: () => void
+  onForumClick?: () => void
+  onInstructionsClick?: () => void
 }
 
-export function LandingPage({ onGetStarted, onPrivacyClick }: LandingPageProps) {
+export function LandingPage({ onGetStarted, onPrivacyClick, onBlogClick, onForumClick, onInstructionsClick }: LandingPageProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const scrollToSection = (sectionId: string) => {
@@ -21,169 +41,472 @@ export function LandingPage({ onGetStarted, onPrivacyClick }: LandingPageProps) 
   const features = [
     {
       icon: Brain,
-      title: "AI-Powered Analysis",
-      description: "Advanced artificial intelligence provides strategic recommendations and comprehensive SWOT analysis for optimal decision-making."
+      title: "AI-Powered Intelligence",
+      description: "Strategic insights and SWOT analysis for smarter location decisions.",
+      gradient: "from-purple-500 to-blue-600"
     },
     {
-      icon: Map,
-      title: "Interactive Mapping",
-      description: "Real-time visualization with supplier density mapping, coverage radius analysis, and geographic insights."
+      icon: Globe,
+      title: "Global Mapping Engine",
+      description: "Interactive mapping with real-time supplier visualization and coverage analysis.",
+      gradient: "from-blue-500 to-cyan-600"
     },
     {
-      icon: BarChart3,
-      title: "Data-Driven Insights",
-      description: "Upload supplier data, analyze coverage patterns, and generate detailed reports with export capabilities."
+      icon: TrendingUp,
+      title: "Predictive Analytics",
+      description: "Forecast business outcomes with location optimization and predictive modeling.",
+      gradient: "from-cyan-500 to-teal-600"
+    },
+    {
+      icon: Target,
+      title: "Precision Targeting",
+      description: "Pinpoint optimal office locations with radius analysis and demographic insights.",
+      gradient: "from-teal-500 to-green-600"
     },
     {
       icon: Shield,
       title: "Enterprise Security",
-      description: "Bank-grade security with user authentication, data encryption, and compliance with privacy regulations."
+      description: "Military-grade encryption and enterprise-level data protection.",
+      gradient: "from-green-500 to-blue-600"
     },
     {
       icon: Zap,
-      title: "Real-Time Processing",
-      description: "Lightning-fast analysis with instant results, contextual information enrichment, and live updates."
-    },
-    {
-      icon: Users,
-      title: "Multi-User Support",
-      description: "Collaborative workspace with user management, shared datasets, and team-based analysis workflows."
+      title: "Lightning Performance", 
+      description: "Sub-second analysis with real-time processing and instant visualizations.",
+      gradient: "from-orange-500 to-red-600"
     }
-  ]
-
-  const benefits = [
-    "Reduce location analysis time by 85%",
-    "Increase decision accuracy with AI insights",
-    "Save $100K+ on suboptimal office placements",
-    "Access real-time demographic and infrastructure data",
-    "Generate professional reports in minutes",
-    "Minimize risk with comprehensive SWOT analysis"
   ]
 
   const testimonials = [
     {
       name: "Sarah Chen",
-      title: "VP of Operations, TechFlow Corp",
-      image: "https://images.unsplash.com/photo-1494790108755-2616b332c76c?w=64&h=64&fit=crop&crop=face",
-      content: "This platform revolutionized our expansion strategy. The AI recommendations helped us choose locations that increased our supplier coverage by 40% while reducing operational costs."
+      role: "VP of Operations, TechCorp",
+      content: "Kmlytics transformed our expansion strategy. We identified the perfect office location that increased our supplier coverage by 340%.",
+      rating: 5,
+      avatar: "SC"
     },
     {
-      name: "Michael Rodriguez",
-      title: "Director of Strategy, GlobalTrade Inc",
-      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=64&h=64&fit=crop&crop=face",
-      content: "The data-driven insights and beautiful visualizations made it easy to present our expansion plans to the board. We secured approval in record time."
+      name: "Michael Rodriguez", 
+      role: "Strategic Planning Director, GlobalManufacturing",
+      content: "The AI insights saved us months of research. The SWOT analysis was incredibly detailed and helped secure board approval instantly.",
+      rating: 5,
+      avatar: "MR"
     },
     {
       name: "Dr. Emily Watson",
-      title: "Chief Analytics Officer, InnovateLabs",
-      image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=64&h=64&fit=crop&crop=face",
-      content: "The AI-powered SWOT analysis identified risks and opportunities we hadn't considered. It's like having a strategic consultant available 24/7."
+      role: "Chief Strategy Officer, InnovateLogistics",
+      content: "Remarkable platform. The mapping visualization and data analytics capabilities are unmatched in the industry.",
+      rating: 5,
+      avatar: "EW"
     }
   ]
 
-  const stats = [
-    { number: "500+", label: "Companies Trust Us" },
-    { number: "2M+", label: "Locations Analyzed" },
-    { number: "95%", label: "Accuracy Rate" },
-    { number: "24/7", label: "Support Available" }
-  ]
+     const pricingPlans = [
+     {
+       name: "Free",
+       price: "$0",
+       period: "/forever",
+       description: "Perfect for small businesses and startups",
+       credits: "10 AI credits/month",
+       features: [
+         "Up to 100 suppliers",
+         "3 office locations", 
+         "10 AI recommendations/month",
+         "Basic mapping features",
+         "Community support"
+       ],
+       highlighted: false
+     },
+     {
+       name: "Pro",
+       price: "$11", 
+       originalPrice: "$25",
+       period: "/month",
+       description: "Ideal for growing companies",
+       credits: "1,080 AI credits/month",
+       isDiscounted: true,
+       features: [
+         "Up to 1,000 suppliers",
+         "10 office locations",
+         "1,080 AI recommendations/month", 
+         "Advanced SWOT analysis",
+         "Premium mapping features",
+         "Priority support",
+         "Data export capabilities"
+       ],
+       highlighted: true
+     },
+     {
+       name: "Enterprise", 
+       price: "$108",
+       period: "/month",
+       description: "For large organizations",
+       credits: "10,080 AI credits/month",
+       features: [
+         "Unlimited suppliers",
+         "Unlimited offices", 
+         "10,080 AI recommendations/month",
+         "Custom AI models",
+         "Advanced analytics", 
+         "Dedicated account manager",
+         "White-label options",
+         "API access"
+       ],
+       highlighted: false
+     }
+   ]
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
       {/* Navigation */}
-      <nav className="fixed top-0 w-full z-50 glass border-b border-white/10">
+      <nav className="fixed w-full top-0 z-50 bg-black/20 backdrop-blur-xl border-b border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl luxury-gradient flex items-center justify-center glow">
-                <BarChart3 className="h-5 w-5 text-white" />
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center space-x-3">
+              <div className="flex items-center space-x-2">
+                <div className="relative">
+                  <div className="w-8 h-8 bg-gradient-to-br from-cyan-400 to-teal-500 rounded-lg flex items-center justify-center">
+                    <MapPin className="w-5 h-5 text-white" />
+                  </div>
+                  {/* Dotted trail effect */}
+                  <div className="absolute -top-2 -left-2 w-3 h-3 border-2 border-dashed border-cyan-400 rounded-full opacity-60"></div>
+                  <div className="absolute -top-4 -left-4 w-2 h-2 bg-cyan-400 rounded-full opacity-40"></div>
+                </div>
+                <span className="text-xl font-bold text-white">Kmlytics</span>
               </div>
-              <span className="text-xl font-bold gradient-text">LocationAI</span>
             </div>
             
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
-              <button onClick={() => scrollToSection('features')} className="text-muted-foreground hover:text-foreground transition-colors">Features</button>
-              <button onClick={() => scrollToSection('benefits')} className="text-muted-foreground hover:text-foreground transition-colors">Benefits</button>
-              <button onClick={() => scrollToSection('testimonials')} className="text-muted-foreground hover:text-foreground transition-colors">Testimonials</button>
-              <button onClick={() => scrollToSection('pricing')} className="text-muted-foreground hover:text-foreground transition-colors">Pricing</button>
+              <button 
+                onClick={() => scrollToSection('features')}
+                className="text-gray-300 hover:text-white transition-colors"
+              >
+                Features
+              </button>
+              <button 
+                onClick={onBlogClick}
+                className="text-gray-300 hover:text-white transition-colors"
+              >
+                Blog
+              </button>
+              <button 
+                onClick={onForumClick}
+                className="text-gray-300 hover:text-white transition-colors"
+              >
+                Forum
+              </button>
+              <button 
+                onClick={onInstructionsClick}
+                className="text-gray-300 hover:text-white transition-colors"
+              >
+                Help
+              </button>
+              <button 
+                onClick={() => scrollToSection('testimonials')}
+                className="text-gray-300 hover:text-white transition-colors"
+              >
+                Testimonials
+              </button>
+              <button 
+                onClick={() => scrollToSection('pricing')}
+                className="text-gray-300 hover:text-white transition-colors"
+              >
+                Pricing
+              </button>
               <Button 
                 onClick={onGetStarted}
-                className="luxury-gradient hover:opacity-90 transition-all duration-300 glow"
+                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-2"
               >
                 Get Started
-                <ArrowRight className="ml-2 h-4 w-4" />
+                <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
             </div>
 
             {/* Mobile menu button */}
-            <button
-              className="md:hidden p-2"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-            >
-              {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-            </button>
+            <div className="md:hidden">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="text-white"
+              >
+                {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              </Button>
+            </div>
           </div>
+        </div>
 
-          {/* Mobile Navigation */}
-          {isMenuOpen && (
-            <div className="md:hidden py-4 space-y-4">
-              <button onClick={() => scrollToSection('features')} className="block text-muted-foreground hover:text-foreground transition-colors text-left w-full">Features</button>
-              <button onClick={() => scrollToSection('benefits')} className="block text-muted-foreground hover:text-foreground transition-colors text-left w-full">Benefits</button>
-              <button onClick={() => scrollToSection('testimonials')} className="block text-muted-foreground hover:text-foreground transition-colors text-left w-full">Testimonials</button>
-              <button onClick={() => scrollToSection('pricing')} className="block text-muted-foreground hover:text-foreground transition-colors text-left w-full">Pricing</button>
+        {/* Mobile Navigation */}
+        {isMenuOpen && (
+          <div className="md:hidden bg-black/90 backdrop-blur-xl border-b border-white/10">
+            <div className="px-4 py-3 space-y-3">
+              <button 
+                onClick={() => scrollToSection('features')}
+                className="block w-full text-left text-gray-300 hover:text-white py-2"
+              >
+                Features
+              </button>
+              <button 
+                onClick={onBlogClick}
+                className="block w-full text-left text-gray-300 hover:text-white py-2"
+              >
+                Blog
+              </button>
+              <button 
+                onClick={onForumClick}
+                className="block w-full text-left text-gray-300 hover:text-white py-2"
+              >
+                Forum
+              </button>
+              <button 
+                onClick={onInstructionsClick}
+                className="block w-full text-left text-gray-300 hover:text-white py-2"
+              >
+                Help
+              </button>
+              <button 
+                onClick={() => scrollToSection('testimonials')}
+                className="block w-full text-left text-gray-300 hover:text-white py-2"
+              >
+                Testimonials
+              </button>
+              <button 
+                onClick={() => scrollToSection('pricing')}
+                className="block w-full text-left text-gray-300 hover:text-white py-2"
+              >
+                Pricing
+              </button>
               <Button 
                 onClick={onGetStarted}
-                className="w-full luxury-gradient hover:opacity-90 transition-all duration-300 glow"
+                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
               >
                 Get Started
-                <ArrowRight className="ml-2 h-4 w-4" />
+                <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </nav>
 
+      {/* Hidden SEO Content for Search Engines */}
+      <div className="hidden">
+        <h2>Advanced Location Intelligence Software for Business Intelligence Analysis</h2>
+        <p>Kmlytics provides comprehensive supplier density analytics, site selection tools, AI SWOT analysis, sales territory planning, route optimization algorithms, predictive modeling for strategic planning, competitive positioning analysis, distribution center placement, last-mile delivery analysis, transportation cost modeling, and executive dashboard capabilities with real-time KPIs for data-driven location decisions.</p>
+      </div>
+
       {/* Hero Section */}
-      <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto text-center">
-          <div className="space-y-8">
-            <div className="space-y-4">
-              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold gradient-text leading-tight">
-                AI-Powered Regional Office Location Analysis
-              </h1>
-              <p className="text-xl md:text-2xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
-                Make data-driven decisions for optimal office placement with advanced AI analytics, 
-                real-time mapping, and comprehensive strategic insights.
-              </p>
+      <section className="pt-24 pb-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center space-y-8">
+            {/* Badge */}
+            <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 border border-white/20">
+              <Sparkles className="w-4 h-4 text-yellow-400" />
+              <span className="text-sm text-gray-200">AI-Powered Location Intelligence</span>
+              <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
+              <span className="text-sm text-blue-400">Now Live</span>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Button 
-                onClick={onGetStarted}
-                size="lg"
-                className="luxury-gradient hover:opacity-90 transition-all duration-300 glow-strong text-lg px-8 py-4"
-              >
-                Start Free Analysis
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-              <Button 
-                variant="outline"
-                size="lg"
-                className="glass border-white/20 hover:border-white/40 hover:bg-white/5 transition-all duration-300 text-lg px-8 py-4"
-              >
-                Watch Demo
-              </Button>
+            {/* Main Heading */}
+            <div className="space-y-6">
+              {/* H1 for SEO - Main heading */}
+              <h1 className="sr-only">Kmlytics – The Location Intelligence Platform for Smarter Business Decisions</h1>
+              
+              <div className="flex items-center justify-center space-x-4 mb-6">
+                <div className="relative">
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-cyan-400 to-teal-500 rounded-2xl flex items-center justify-center shadow-2xl">
+                    <MapPin className="w-10 h-10 sm:w-12 sm:h-12 text-white" />
+                  </div>
+                  {/* Enhanced dotted trail effect */}
+                  <div className="absolute -top-3 -left-3 w-6 h-6 border-2 border-dashed border-cyan-400 rounded-full opacity-60 animate-pulse"></div>
+                  <div className="absolute -top-6 -left-6 w-4 h-4 bg-cyan-400 rounded-full opacity-40"></div>
+                  <div className="absolute -top-9 -left-9 w-2 h-2 bg-cyan-300 rounded-full opacity-30"></div>
+                </div>
+                <span className="text-6xl sm:text-7xl lg:text-8xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                  Kmlytics
+                </span>
+              </div>
+              
+              <div className="text-3xl sm:text-4xl lg:text-5xl font-light text-gray-400 leading-tight">
+                The Location Intelligence
+              </div>
+              
+              <p className="text-xl sm:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed mb-8">
+                Transform your strategic decision-making with AI-powered <strong>location intelligence</strong> and 
+                <strong>business intelligence analysis</strong>. Make smarter decisions faster.
+              </p>
+              
+              <div className="text-lg text-gray-400 max-w-3xl mx-auto">
+                <div className="grid md:grid-cols-3 gap-6 text-center">
+                  <div className="space-y-2">
+                    <h3 className="text-cyan-400 font-semibold">AI-Powered Supplier Clustering</h3>
+                    <p className="text-sm">Intelligent geographic grouping of suppliers for optimal coverage analysis</p>
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="text-purple-400 font-semibold">Regional Office Ranking</h3>
+                    <p className="text-sm">Data-driven scoring system for strategic location selection</p>
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="text-green-400 font-semibold">Executive SWOT Reports</h3>
+                    <p className="text-sm">Comprehensive strategic analysis with AI-generated insights</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+                         {/* CTA Button */}
+             <div className="flex items-center justify-center pt-8">
+               <Button 
+                 onClick={onGetStarted}
+                 size="lg"
+                 className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-12 py-4 text-lg font-semibold rounded-xl shadow-2xl hover:shadow-blue-500/25 transition-all duration-300"
+               >
+                 Start Free Analysis
+                 <ArrowRight className="ml-2 w-5 h-5" />
+               </Button>
+             </div>
+
+            {/* App Demo Visual */}
+            <div className="pt-16 max-w-6xl mx-auto">
+              <div className="relative group">
+                {/* Placeholder for app screenshot/GIF */}
+                <div className="relative bg-gradient-to-br from-slate-800/50 to-blue-900/30 backdrop-blur-sm rounded-2xl border border-white/10 p-4 hover:border-white/20 transition-all duration-500 group-hover:scale-[1.02]">
+                  {/* Browser Chrome */}
+                  <div className="flex items-center space-x-2 mb-4 pb-3 border-b border-white/10">
+                    <div className="flex space-x-2">
+                      <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                      <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                      <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                    </div>
+                    <div className="flex-1 bg-white/5 rounded-lg px-4 py-1 text-sm text-gray-400 text-center">
+                      https://locationai.vercel.app
+                    </div>
+                  </div>
+                  
+                  {/* App Demo GIF */}
+                  <div className="aspect-video bg-gradient-to-br from-blue-900/20 to-purple-900/20 rounded-xl border border-white/5 relative overflow-hidden">
+                    <img 
+                      src="/app-demo.gif" 
+                      alt="Kmlytics Dashboard Demo"
+                      className="w-full h-full object-cover rounded-xl"
+                    />
+                    
+                    {/* Overlay Text on Hover */}
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <div className="text-center text-white">
+                        <div className="text-sm font-medium mb-2">🚀 Kmlytics in Action</div>
+                        <div className="text-xs text-gray-300">Real-time analysis with AI-powered insights</div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Feature highlights */}
+                  <div className="flex flex-wrap items-center justify-center gap-4 mt-4 text-sm">
+                    <div className="flex items-center space-x-2 text-gray-300">
+                      <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+                      <span>Real-time Mapping</span>
+                    </div>
+                    <div className="flex items-center space-x-2 text-gray-300">
+                      <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+                      <span>AI Recommendations</span>
+                    </div>
+                    <div className="flex items-center space-x-2 text-gray-300">
+                      <div className="w-2 h-2 bg-cyan-400 rounded-full"></div>
+                      <span>Coverage Analysis</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Floating elements for visual appeal */}
+                <div className="absolute -top-4 -right-4 w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full opacity-20 group-hover:opacity-40 transition-opacity duration-300"></div>
+                <div className="absolute -bottom-4 -left-4 w-6 h-6 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-full opacity-20 group-hover:opacity-40 transition-opacity duration-300"></div>
+              </div>
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16">
-              {stats.map((stat, index) => (
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-8 pt-16 max-w-5xl mx-auto">
+              {[
+                { value: "10,000+", label: "Locations Analyzed" },
+                { value: "95%", label: "Accuracy Rate" },
+                { value: "500+", label: "Companies Trust Us" },
+                { value: "1.2M+", label: "AI Credits Used" },
+                { value: "24/7", label: "AI Processing" }
+              ].map((stat, index) => (
                 <div key={index} className="text-center">
-                  <div className="text-3xl md:text-4xl font-bold gradient-text">{stat.number}</div>
-                  <div className="text-muted-foreground mt-2">{stat.label}</div>
+                  <div className="text-3xl font-bold text-white mb-2">{stat.value}</div>
+                  <div className="text-gray-400">{stat.label}</div>
                 </div>
               ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Use Cases Section */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-black/10">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl sm:text-5xl font-bold text-white mb-6">
+              Strategic Solutions
+              <span className="block bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">
+                For Every Industry
+              </span>
+            </h2>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+              Discover how leading organizations leverage location intelligence for competitive advantage.
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-3 gap-8">
+            {/* For Corporates */}
+            <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:border-orange-400/30 transition-all duration-300">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center mb-6">
+                <Building className="w-6 h-6 text-white" />
+              </div>
+              <h3 className="text-2xl font-bold text-white mb-4">For Corporates</h3>
+              <p className="text-gray-300 mb-6">
+                Optimize office placement with comprehensive <strong>business intelligence analysis</strong> and competitive positioning insights.
+              </p>
+              <ul className="space-y-2 text-gray-400">
+                <li>• Executive dashboard with real-time KPIs</li>
+                <li>• Multi-location cost-benefit analysis</li>
+                <li>• Regulatory compliance mapping</li>
+                <li>• Stakeholder accessibility scoring</li>
+              </ul>
+            </div>
+
+            {/* For Logistics Companies */}
+            <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:border-blue-400/30 transition-all duration-300">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-600 flex items-center justify-center mb-6">
+                <Truck className="w-6 h-6 text-white" />
+              </div>
+              <h3 className="text-2xl font-bold text-white mb-4">For Logistics Companies</h3>
+              <p className="text-gray-300 mb-6">
+                Master <strong>supplier density analytics</strong> and optimize distribution networks with AI-powered route planning.
+              </p>
+              <ul className="space-y-2 text-gray-400">
+                <li>• Route optimization algorithms</li>
+                <li>• Distribution center placement</li>
+                <li>• Last-mile delivery analysis</li>
+                <li>• Transportation cost modeling</li>
+              </ul>
+            </div>
+
+            {/* For Consultants */}
+            <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:border-purple-400/30 transition-all duration-300">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center mb-6">
+                <Users className="w-6 h-6 text-white" />
+              </div>
+              <h3 className="text-2xl font-bold text-white mb-4">For Consultants</h3>
+              <p className="text-gray-300 mb-6">
+                Deliver premium <strong>site selection tool</strong> services with professional-grade analytics and <strong>AI SWOT analysis</strong>.
+              </p>
+              <ul className="space-y-2 text-gray-400">
+                <li>• White-label reporting platform</li>
+                <li>• Client-specific branding options</li>
+                <li>• Automated insight generation</li>
+                <li>• Export to PDF/Excel</li>
+              </ul>
             </div>
           </div>
         </div>
@@ -193,134 +516,89 @@ export function LandingPage({ onGetStarted, onPrivacyClick }: LandingPageProps) 
       <section id="features" className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-bold gradient-text mb-4">
-              Powerful Features for Strategic Decisions
+            <h2 className="text-4xl sm:text-5xl font-bold text-white mb-6">
+              Business Intelligence Analysis
+              <span className="block bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                Powered by Advanced AI Technology
+              </span>
             </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Everything you need to analyze, visualize, and optimize your regional office locations
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+              Experience the future of location intelligence with our cutting-edge platform
+              designed for modern businesses.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {features.map((feature, index) => (
-              <div key={index} className="premium-card rounded-2xl p-8 hover:scale-105 transition-all duration-300 glow">
-                <div className="mb-6">
-                  <div className="w-16 h-16 rounded-2xl luxury-gradient flex items-center justify-center glow mb-4">
-                    <feature.icon className="h-8 w-8 text-white" />
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {features.map((feature, index) => {
+              const Icon = feature.icon
+              return (
+                <div 
+                  key={index}
+                  className="group relative bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:border-white/20 transition-all duration-300 hover:-translate-y-2"
+                >
+                  {/* Gradient overlay */}
+                  <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-5 rounded-2xl transition-opacity duration-300`}></div>
+                  
+                  {/* Icon */}
+                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center mb-6`}>
+                    <Icon className="w-6 h-6 text-white" />
                   </div>
-                  <h3 className="text-xl font-bold text-foreground mb-3">{feature.title}</h3>
-                  <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
+                  
+                  {/* Content */}
+                  <h3 className="text-xl font-bold text-white mb-4 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-blue-400 group-hover:to-purple-400 group-hover:bg-clip-text transition-all duration-300">
+                    {feature.title}
+                  </h3>
+                  <p className="text-gray-300 leading-relaxed">
+                    {feature.description}
+                  </p>
                 </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Benefits Section */}
-      <section id="benefits" className="py-20 px-4 sm:px-6 lg:px-8 bg-muted/5">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <h2 className="text-3xl md:text-5xl font-bold gradient-text mb-6">
-                Why Leading Companies Choose LocationAI
-              </h2>
-              <p className="text-xl text-muted-foreground mb-8">
-                Transform your expansion strategy with data-driven insights and AI-powered recommendations
-              </p>
-              
-              <div className="space-y-4">
-                {benefits.map((benefit, index) => (
-                  <div key={index} className="flex items-center gap-3">
-                    <CheckCircle className="h-6 w-6 text-green-400 flex-shrink-0" />
-                    <span className="text-foreground text-lg">{benefit}</span>
-                  </div>
-                ))}
-              </div>
-
-              <Button 
-                onClick={onGetStarted}
-                size="lg"
-                className="mt-8 luxury-gradient hover:opacity-90 transition-all duration-300 glow"
-              >
-                Start Your Analysis
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-            </div>
-
-            <div className="space-y-8">
-              <div className="premium-card rounded-2xl p-8 glow">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center">
-                    <Brain className="h-6 w-6 text-blue-400" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-bold text-foreground">AI-Driven Intelligence</h3>
-                    <p className="text-muted-foreground">Smart recommendations based on comprehensive data analysis</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="premium-card rounded-2xl p-8 glow">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-12 h-12 rounded-xl bg-purple-500/20 flex items-center justify-center">
-                    <Map className="h-6 w-6 text-purple-400" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-bold text-foreground">Visual Analytics</h3>
-                    <p className="text-muted-foreground">Interactive maps and real-time data visualization</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="premium-card rounded-2xl p-8 glow">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-12 h-12 rounded-xl bg-green-500/20 flex items-center justify-center">
-                    <Shield className="h-6 w-6 text-green-400" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-bold text-foreground">Enterprise Ready</h3>
-                    <p className="text-muted-foreground">Bank-grade security and compliance standards</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+              )
+            })}
           </div>
         </div>
       </section>
 
       {/* Testimonials Section */}
-      <section id="testimonials" className="py-20 px-4 sm:px-6 lg:px-8">
+      <section id="testimonials" className="py-20 px-4 sm:px-6 lg:px-8 bg-black/20">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-bold gradient-text mb-4">
-              Trusted by Industry Leaders
+            <h2 className="text-4xl sm:text-5xl font-bold text-white mb-6">
+              Sales Territory Planning
+              <span className="block bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">
+                Trusted by Industry Leaders Worldwide
+              </span>
             </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              See how companies are transforming their expansion strategies with LocationAI
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+              See how forward-thinking companies are transforming their location strategy with Kmlytics.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 gap-8">
             {testimonials.map((testimonial, index) => (
-              <div key={index} className="premium-card rounded-2xl p-8 glow hover:scale-105 transition-all duration-300">
-                <div className="flex items-center gap-1 mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
+              <div 
+                key={index}
+                className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:border-white/20 transition-all duration-300"
+              >
+                {/* Stars */}
+                <div className="flex space-x-1 mb-6">
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
                   ))}
                 </div>
                 
-                <p className="text-muted-foreground mb-6 leading-relaxed">"{testimonial.content}"</p>
+                {/* Content */}
+                <p className="text-gray-300 mb-6 leading-relaxed">
+                  "{testimonial.content}"
+                </p>
                 
-                <div className="flex items-center gap-3">
-                  <img 
-                    src={testimonial.image} 
-                    alt={testimonial.name}
-                    className="w-12 h-12 rounded-full border-2 border-accent"
-                  />
+                {/* Author */}
+                <div className="flex items-center space-x-4">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold">
+                    {testimonial.avatar}
+                  </div>
                   <div>
-                    <div className="font-semibold text-foreground">{testimonial.name}</div>
-                    <div className="text-sm text-muted-foreground">{testimonial.title}</div>
+                    <div className="text-white font-semibold">{testimonial.name}</div>
+                    <div className="text-gray-400 text-sm">{testimonial.role}</div>
                   </div>
                 </div>
               </div>
@@ -333,221 +611,169 @@ export function LandingPage({ onGetStarted, onPrivacyClick }: LandingPageProps) 
       <section id="pricing" className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-bold gradient-text mb-4">
-              Simple, Transparent Pricing
+            <h2 className="text-4xl sm:text-5xl font-bold text-white mb-6">
+              AI SWOT Analysis
+              <span className="block bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                Choose Your Perfect Plan
+              </span>
             </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Choose the plan that fits your business needs. Start free, upgrade when you're ready.
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+              Scale with confidence. From startups to enterprises, we have the right solution for your business.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {/* Starter Plan */}
-            <div className="premium-card rounded-2xl p-8 text-center">
-              <h3 className="text-xl font-bold text-foreground mb-2">Starter</h3>
-              <div className="text-3xl font-bold gradient-text mb-4">Free</div>
-              <p className="text-muted-foreground mb-6">Perfect for small businesses getting started</p>
-              <ul className="space-y-3 mb-8 text-left">
-                <li className="flex items-center gap-3">
-                  <CheckCircle className="h-5 w-5 text-green-400" />
-                  <span className="text-muted-foreground">Up to 100 suppliers</span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <CheckCircle className="h-5 w-5 text-green-400" />
-                  <span className="text-muted-foreground">3 office locations</span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <CheckCircle className="h-5 w-5 text-green-400" />
-                  <span className="text-muted-foreground">Basic mapping</span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <CheckCircle className="h-5 w-5 text-green-400" />
-                  <span className="text-muted-foreground">Email support</span>
-                </li>
-              </ul>
-              <Button 
-                onClick={onGetStarted}
-                variant="outline"
-                className="w-full glass border-white/20 hover:border-white/40 hover:bg-white/5"
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {pricingPlans.map((plan, index) => (
+              <div 
+                key={index}
+                className={`relative bg-white/5 backdrop-blur-sm rounded-2xl p-8 border transition-all duration-300 hover:-translate-y-2 flex flex-col h-full ${
+                  plan.highlighted 
+                    ? 'border-blue-500 bg-gradient-to-br from-blue-500/10 to-purple-500/10' 
+                    : 'border-white/10 hover:border-white/20'
+                }`}
               >
-                Start Free
-              </Button>
-            </div>
+                {plan.highlighted && (
+                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                    <div className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-4 py-2 rounded-full text-sm font-semibold">
+                      Most Popular
+                    </div>
+                  </div>
+                )}
 
-            {/* Professional Plan */}
-            <div className="premium-card rounded-2xl p-8 text-center border-l-4 border-accent glow-strong relative">
-              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                <span className="px-3 py-1 text-xs font-medium luxury-gradient text-white rounded-full">
-                  Most Popular
-                </span>
+                {/* Plan header */}
+                <div className="text-center mb-8">
+                  <h3 className="text-2xl font-bold text-white mb-2">{plan.name}</h3>
+                  <p className="text-gray-300 mb-4">{plan.description}</p>
+                  <div className="flex items-baseline justify-center mb-2">
+                    {plan.isDiscounted ? (
+                      <div className="text-center">
+                        <div className="flex items-baseline justify-center gap-2">
+                          <span className="text-2xl text-gray-400 line-through">{plan.originalPrice}</span>
+                          <span className="text-4xl font-bold text-blue-400">{plan.price}</span>
+                          <span className="text-gray-300">{plan.period}</span>
+                        </div>
+                        <div className="text-sm text-orange-400 font-medium mt-1">
+                          🔥 Limited Time Offer - Save 56%!
+                        </div>
+                      </div>
+                    ) : (
+                      <>
+                        <span className="text-4xl font-bold text-white">{plan.price}</span>
+                        <span className="text-gray-300 ml-2">{plan.period}</span>
+                      </>
+                    )}
+                  </div>
+                  <div className="mt-3 px-3 py-1 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full text-sm text-blue-300 inline-block">
+                    {plan.credits}
+                  </div>
+                </div>
+
+                {/* Features */}
+                <ul className="space-y-4 mb-8 flex-grow">
+                  {plan.features.map((feature, featureIndex) => (
+                    <li key={featureIndex} className="flex items-center space-x-3">
+                      <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0" />
+                      <span className="text-gray-300">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                {/* CTA Button - Fixed alignment */}
+                <div className="mt-auto">
+                  <Button 
+                    onClick={plan.name === 'Free' ? onGetStarted : () => alert('🚧 Payment Integration Coming Soon!\n\nWe are working hard to bring you the best payment experience. Stay tuned for updates!')}
+                    className={`w-full py-3 rounded-xl font-semibold transition-all duration-300 ${
+                      plan.name === 'Free'
+                        ? 'bg-white/10 hover:bg-white/20 text-white border border-white/20'
+                        : 'bg-gray-600 text-gray-300 cursor-not-allowed'
+                    }`}
+                    disabled={plan.name !== 'Free'}
+                  >
+                    {plan.name === 'Free' ? 'Get Started' : 'Coming Soon'}
+                  </Button>
+                </div>
               </div>
-              <h3 className="text-xl font-bold text-foreground mb-2">Professional</h3>
-              <div className="text-3xl font-bold gradient-text mb-4">$49<span className="text-lg text-muted-foreground">/month</span></div>
-              <p className="text-muted-foreground mb-6">For growing companies with advanced needs</p>
-              <ul className="space-y-3 mb-8 text-left">
-                <li className="flex items-center gap-3">
-                  <CheckCircle className="h-5 w-5 text-green-400" />
-                  <span className="text-muted-foreground">Unlimited suppliers</span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <CheckCircle className="h-5 w-5 text-green-400" />
-                  <span className="text-muted-foreground">Unlimited office locations</span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <CheckCircle className="h-5 w-5 text-green-400" />
-                  <span className="text-muted-foreground">AI-powered analysis</span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <CheckCircle className="h-5 w-5 text-green-400" />
-                  <span className="text-muted-foreground">Advanced reporting</span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <CheckCircle className="h-5 w-5 text-green-400" />
-                  <span className="text-muted-foreground">Priority support</span>
-                </li>
-              </ul>
-              <Button 
-                onClick={onGetStarted}
-                className="w-full luxury-gradient hover:opacity-90 transition-all duration-300 glow"
-              >
-                Start Trial
-              </Button>
-            </div>
-
-            {/* Enterprise Plan */}
-            <div className="premium-card rounded-2xl p-8 text-center">
-              <h3 className="text-xl font-bold text-foreground mb-2">Enterprise</h3>
-              <div className="text-3xl font-bold gradient-text mb-4">Custom</div>
-              <p className="text-muted-foreground mb-6">Tailored solutions for large organizations</p>
-              <ul className="space-y-3 mb-8 text-left">
-                <li className="flex items-center gap-3">
-                  <CheckCircle className="h-5 w-5 text-green-400" />
-                  <span className="text-muted-foreground">Everything in Professional</span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <CheckCircle className="h-5 w-5 text-green-400" />
-                  <span className="text-muted-foreground">Custom integrations</span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <CheckCircle className="h-5 w-5 text-green-400" />
-                  <span className="text-muted-foreground">Dedicated support</span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <CheckCircle className="h-5 w-5 text-green-400" />
-                  <span className="text-muted-foreground">On-premise deployment</span>
-                </li>
-              </ul>
-              <Button 
-                variant="outline"
-                className="w-full glass border-white/20 hover:border-white/40 hover:bg-white/5"
-              >
-                Contact Sales
-              </Button>
-            </div>
+            ))}
           </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-muted/5">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-5xl font-bold gradient-text mb-6">
-            Ready to Transform Your Location Strategy?
-          </h2>
-          <p className="text-xl text-muted-foreground mb-8">
-            Join hundreds of companies using AI-powered analytics for smarter expansion decisions
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button 
-              onClick={onGetStarted}
-              size="lg"
-              className="luxury-gradient hover:opacity-90 transition-all duration-300 glow-strong text-lg px-8 py-4"
-            >
-              Start Free Trial
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-            <Button 
-              variant="outline"
-              size="lg"
-              className="glass border-white/20 hover:border-white/40 hover:bg-white/5 transition-all duration-300 text-lg px-8 py-4"
-            >
-              Schedule Demo
-            </Button>
-          </div>
-
-          <p className="text-sm text-muted-foreground mt-6">
-            No credit card required • Free 14-day trial • Cancel anytime
-          </p>
         </div>
       </section>
 
       {/* Footer */}
       <footer className="py-12 px-4 sm:px-6 lg:px-8 border-t border-white/10">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div>
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-xl luxury-gradient flex items-center justify-center glow">
-                  <BarChart3 className="h-5 w-5 text-white" />
+          <div className="grid md:grid-cols-4 gap-8">
+            {/* Brand */}
+            <div className="space-y-4">
+              <div className="flex items-center space-x-2">
+                <div className="relative">
+                  <div className="w-8 h-8 bg-gradient-to-br from-cyan-400 to-teal-500 rounded-lg flex items-center justify-center">
+                    <MapPin className="w-5 h-5 text-white" />
+                  </div>
+                  <div className="absolute -top-2 -left-2 w-3 h-3 border-2 border-dashed border-cyan-400 rounded-full opacity-60"></div>
+                  <div className="absolute -top-4 -left-4 w-2 h-2 bg-cyan-400 rounded-full opacity-40"></div>
                 </div>
-                <span className="text-xl font-bold gradient-text">LocationAI</span>
+                <span className="text-xl font-bold text-white">Kmlytics</span>
               </div>
-              <p className="text-muted-foreground">
-                AI-powered regional office location analysis for strategic business decisions.
+              <p className="text-gray-400">
+                The location intelligence for strategic business decisions.
               </p>
             </div>
 
+            {/* Product */}
             <div>
-              <h3 className="font-semibold text-foreground mb-4">Product</h3>
-              <div className="space-y-2">
-                <a href="#features" className="block text-muted-foreground hover:text-foreground transition-colors">Features</a>
-                <a href="#pricing" className="block text-muted-foreground hover:text-foreground transition-colors">Pricing</a>
-                <a href="#demo" className="block text-muted-foreground hover:text-foreground transition-colors">Demo</a>
-                <a href="#api" className="block text-muted-foreground hover:text-foreground transition-colors">API</a>
-              </div>
+              <h4 className="text-white font-semibold mb-4">Product</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li><button onClick={() => scrollToSection('features')}>Features</button></li>
+                <li><button onClick={() => scrollToSection('pricing')}>Pricing</button></li>
+                <li><a href="#" className="hover:text-white transition-colors">API</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Integrations</a></li>
+              </ul>
             </div>
 
+            {/* Company */}
             <div>
-              <h3 className="font-semibold text-foreground mb-4">Company</h3>
-              <div className="space-y-2">
-                <a href="#about" className="block text-muted-foreground hover:text-foreground transition-colors">About</a>
-                <a href="#careers" className="block text-muted-foreground hover:text-foreground transition-colors">Careers</a>
-                <a href="#contact" className="block text-muted-foreground hover:text-foreground transition-colors">Contact</a>
-                <a href="#blog" className="block text-muted-foreground hover:text-foreground transition-colors">Blog</a>
-              </div>
+              <h4 className="text-white font-semibold mb-4">Company</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li><a href="#" className="hover:text-white transition-colors">About</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Careers</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Contact</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Blog</a></li>
+              </ul>
             </div>
 
+            {/* Legal */}
             <div>
-              <h3 className="font-semibold text-foreground mb-4">Legal</h3>
-              <div className="space-y-2">
-                <button 
-                  onClick={onPrivacyClick}
-                  className="block text-muted-foreground hover:text-foreground transition-colors text-left"
-                >
-                  Privacy Policy
-                </button>
-                <a href="#terms" className="block text-muted-foreground hover:text-foreground transition-colors">Terms of Service</a>
-                <a href="#security" className="block text-muted-foreground hover:text-foreground transition-colors">Security</a>
-                <a href="#compliance" className="block text-muted-foreground hover:text-foreground transition-colors">Compliance</a>
-              </div>
+              <h4 className="text-white font-semibold mb-4">Legal</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li>
+                  <button 
+                    onClick={onPrivacyClick}
+                    className="hover:text-white transition-colors"
+                  >
+                    Privacy Policy
+                  </button>
+                </li>
+                <li><a href="#" className="hover:text-white transition-colors">Terms of Service</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">GDPR</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Security</a></li>
+              </ul>
             </div>
           </div>
 
-          <div className="border-t border-white/10 mt-12 pt-8 text-center">
-            <p className="text-muted-foreground">
-              © 2024 LocationAI. All rights reserved. Built with ❤️ for strategic decision makers.
-            </p>
+          <div className="border-t border-white/10 mt-12 pt-8">
+            <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+              <p className="text-gray-400">
+                © 2024 Kmlytics. All rights reserved.
+              </p>
+              <div className="flex items-center space-x-6 text-gray-400">
+                <a href="#" className="hover:text-white transition-colors">Status</a>
+                <a href="#" className="hover:text-white transition-colors">Support</a>
+                <a href="#" className="hover:text-white transition-colors">Documentation</a>
+              </div>
+            </div>
           </div>
         </div>
       </footer>
-
-      {/* Background decoration */}
-      <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
-        <div className="absolute top-1/2 left-0 w-64 h-64 bg-violet-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '4s' }} />
-      </div>
     </div>
   )
 }

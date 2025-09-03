@@ -1,0 +1,46 @@
+User-agent: *
+Allow: /
+
+# Allow all search engines to access the site
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+# Disallow admin and private areas
+Disallow: /admin/
+Disallow: /api/
+Disallow: /_*
+Disallow: /.*
+
+# Allow important directories
+Allow: /blog/
+Allow: /forum/
+Allow: /features/
+Allow: /pricing/
+Allow: /tools/
+
+# Sitemap location
+Sitemap: https://kmlytics.xyz/sitemap.xml
+
+# Crawl delay (be nice to servers)
+Crawl-delay: 1
+
+# Cache directives
+# Allow crawling of CSS and JS files for better rendering
+User-agent: *
+Allow: *.css
+Allow: *.js
+Allow: *.png
+Allow: *.jpg
+Allow: *.jpeg
+Allow: *.gif
+Allow: *.svg
+Allow: *.webp

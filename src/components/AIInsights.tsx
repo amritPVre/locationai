@@ -12,7 +12,7 @@ import {
   type ContextualData,
   type SWOTAnalysis
 } from '@/lib/ai'
-import { generateSWOTPowerPoint } from '@/lib/pptx'
+import { generateSWOTPDF } from '@/lib/pdf'
 import { 
   reverseGeocode, 
   findNearestRailwayStation, 
@@ -20,7 +20,17 @@ import {
   findNearbyHighways, 
   getPopulationData 
 } from '@/lib/apis'
-import { Brain, Lightbulb, Download, Wand2, TrendingUp, AlertTriangle, Target, Shield } from 'lucide-react'
+import { 
+  getUserCredits, 
+  deductCredits, 
+  checkAndResetMonthlyCredits,
+  formatCredits,
+  getCreditsColor,
+  PLAN_NAMES,
+  type UserCredits
+} from '@/lib/credits'
+// Removed Lemon Squeezy tracking - payment system coming soon
+import { Brain, Lightbulb, Download, Wand2, TrendingUp, AlertTriangle, Target, Shield, Coins } from 'lucide-react'
 import { Spinner } from '@/components/ui/spinner'
 
 interface Supplier {
@@ -66,6 +76,10 @@ export function AIInsights() {
   const [fetchingContext, setFetchingContext] = useState(false)
   const [error, setError] = useState('')
 
+  // Credits system
+  const [userCredits, setUserCredits] = useState<UserCredits | null>(null)
+  const [loadingCredits, setLoadingCredits] = useState(true)
+
   useEffect(() => {
     fetchInitialData()
   }, [])
@@ -81,6 +95,12 @@ export function AIInsights() {
       performAnalysis()
     }
   }, [suppliers, offices, radius])
+
+  useEffect(() => {
+    if (user) {
+      fetchUserCredits()
+    }
+  }, [user])
 
   const fetchInitialData = async () => {
     if (!user) return
@@ -220,9 +240,33 @@ export function AIInsights() {
     }
   }
 
+  const fetchUserCredits = async () => {
+    if (!user) return
+
+    setLoadingCredits(true)
+    try {
+      // Check and reset monthly credits if needed
+      await checkAndResetMonthlyCredits(user.id)
+      
+      // Fetch current credits
+      const credits = await getUserCredits(user.id)
+      setUserCredits(credits)
+    } catch (err) {
+      console.error('Failed to fetch user credits:', err)
+    } finally {
+      setLoadingCredits(false)
+    }
+  }
+
   const handleGenerateRecommendation = async () => {
     if (analysisResults.length === 0) {
       setError('No analysis results available. Please ensure you have uploaded data and configured offices.')
+      return
+    }
+
+    // Check if user has enough credits
+    if (!userCredits || userCredits.credits < 1) {
+      setError('Insufficient credits. Please upgrade your plan to continue using AI recommendations.')
       return
     }
 
@@ -241,7 +285,18 @@ export function AIInsights() {
         radius
       )
 
-      setAiRecommendation(recommendation)
+      // Deduct credits after successful generation
+      const deductSuccess = await deductCredits(user!.id, 1)
+      if (deductSuccess) {
+        // Feature usage tracking disabled - payment system coming soon
+        console.log('AI recommendation generated - tracking disabled')
+        
+        // Refresh credits display
+        await fetchUserCredits()
+        setAiRecommendation(recommendation)
+      } else {
+        setError('Failed to deduct credits. Please try again.')
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to generate AI recommendation')
     } finally {
@@ -252,6 +307,12 @@ export function AIInsights() {
   const handleGenerateSWOT = async () => {
     if (!selectedOffice || analysisResults.length === 0) {
       setError('Please select an office and ensure analysis data is available.')
+      return
+    }
+
+    // Check if user has enough credits
+    if (!userCredits || userCredits.credits < 1) {
+      setError('Insufficient credits. Please upgrade your plan to continue using AI SWOT analysis.')
       return
     }
 
@@ -289,8 +350,19 @@ export function AIInsights() {
         radius
       )
 
-      console.log('Generated SWOT:', swot)
-      setSWOTAnalysis(swot)
+      // Deduct credits after successful generation
+      const deductSuccess = await deductCredits(user!.id, 1)
+      if (deductSuccess) {
+        // Feature usage tracking disabled - payment system coming soon
+        console.log('SWOT analysis generated - tracking disabled')
+        
+        // Refresh credits display
+        await fetchUserCredits()
+        console.log('Generated SWOT:', swot)
+        setSWOTAnalysis(swot)
+      } else {
+        setError('Failed to deduct credits. Please try again.')
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to generate SWOT analysis')
     } finally {
@@ -298,7 +370,7 @@ export function AIInsights() {
     }
   }
 
-  const handleExportToPowerPoint = () => {
+  const handleExportToPDF = () => {
     if (!swotAnalysis || !selectedOffice) return
 
     const selectedOfficeData = analysisResults.find(r => 
@@ -313,14 +385,14 @@ export function AIInsights() {
     const officeName = offices.find(o => o.id === selectedOffice)?.office_name || 'Unknown Office'
 
     try {
-      generateSWOTPowerPoint(swotAnalysis, officeName, {
+      generateSWOTPDF(swotAnalysis, officeName, {
         suppliers_count: selectedOfficeData.suppliers_count,
         coordinates: selectedOfficeData.coordinates,
         rank: selectedOfficeData.rank,
         total_offices: analysisResults.length
       })
     } catch (err) {
-      setError(`Failed to export PowerPoint: ${err}`)
+      setError(`Failed to export PDF: ${err}`)
     }
   }
 
@@ -548,6 +620,45 @@ export function AIInsights() {
         </div>
       </div>
 
+      {/* Credits Display */}
+      <div className="premium-card rounded-2xl p-6 border-l-4 border-accent">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-accent/20 rounded-lg">
+              <Coins className="h-5 w-5 text-accent" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-lg">AI Credits</h3>
+              <p className="text-muted-foreground text-sm">
+                Each AI recommendation costs 1 credit
+              </p>
+            </div>
+          </div>
+          <div className="text-right">
+            {loadingCredits ? (
+              <div className="flex items-center gap-2">
+                <Spinner size="sm" />
+                <span className="text-muted-foreground">Loading...</span>
+              </div>
+            ) : userCredits ? (
+              <div>
+                <div className={`text-2xl font-bold ${getCreditsColor(userCredits.credits, userCredits.plan)}`}>
+                  {formatCredits(userCredits.credits)}
+                </div>
+                <div className="text-sm text-muted-foreground">
+                  {PLAN_NAMES[userCredits.plan]} Plan
+                </div>
+              </div>
+            ) : (
+              <div className="text-red-400">
+                <div className="text-lg font-semibold">Error</div>
+                <div className="text-sm">Failed to load credits</div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
       {/* Configuration */}
       <div className="premium-card rounded-2xl p-6">
         <div className="space-y-6">
@@ -699,12 +810,12 @@ export function AIInsights() {
             <Button 
               variant="outline" 
               size="sm"
-              onClick={handleExportToPowerPoint}
+              onClick={handleExportToPDF}
               disabled={!swotAnalysis}
               className="glass border-white/20 hover:border-white/40 hover:bg-white/5 transition-all duration-300"
             >
               <Download className="h-4 w-4 mr-2" />
-              Export to PowerPoint
+              Export to PDF
             </Button>
           </div>
 

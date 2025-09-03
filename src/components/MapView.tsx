@@ -1,15 +1,17 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
 import { Slider } from '@/components/ui/slider'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { useAuth } from '@/lib/auth'
 import { supabase } from '@/lib/supabase'
 import { haversine } from '@/lib/utils'
-import { Map, MapPin, Building } from 'lucide-react'
+import { Map, MapPin, Building, Camera, Download } from 'lucide-react'
 import { Spinner } from '@/components/ui/spinner'
+import html2canvas from 'html2canvas'
 
 // React Leaflet imports
-import { MapContainer, TileLayer, Marker, Circle, Polyline, Popup } from 'react-leaflet'
+import { MapContainer, TileLayer, Marker, Circle, Polyline, Popup, useMap } from 'react-leaflet'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 
@@ -53,8 +55,24 @@ interface Dataset {
   total_suppliers: number
 }
 
+// Map capture component that has access to the map instance
+function MapCapture({ onCapture }: { onCapture: (mapInstance: L.Map) => void }) {
+  const map = useMap()
+  
+  useEffect(() => {
+    if (map) {
+      // Pass the map instance to parent when ready
+      onCapture(map)
+    }
+  }, [map, onCapture])
+  
+  return null
+}
+
 export function MapView() {
   const { user } = useAuth()
+  const mapRef = useRef<HTMLDivElement>(null)
+  const mapInstanceRef = useRef<L.Map | null>(null)
   
   const [datasets, setDatasets] = useState<Dataset[]>([])
   const [selectedDataset, setSelectedDataset] = useState<string>('')
@@ -63,6 +81,9 @@ export function MapView() {
   const [selectedOffice, setSelectedOffice] = useState<string>('')
   const [radius, setRadius] = useState([50])
   const [loading, setLoading] = useState(true)
+  const [captureLoading, setCaptureLoading] = useState(false)
+  const [mapStyle, setMapStyle] = useState<'street' | 'satellite'>('street')
+  const [captureSuccess, setCaptureSuccess] = useState(false)
   const [error, setError] = useState('')
 
   useEffect(() => {
@@ -128,6 +149,144 @@ export function MapView() {
       setSuppliers(data || [])
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch suppliers')
+    }
+  }
+
+  // Handle map instance ready
+  const handleMapReady = (mapInstance: L.Map) => {
+    mapInstanceRef.current = mapInstance
+  }
+
+  const captureMap = async () => {
+    if (!mapInstanceRef.current || !mapRef.current) return
+
+    setCaptureLoading(true)
+    try {
+      const map = mapInstanceRef.current
+
+      // Force map to invalidate size and re-render all layers
+      map.invalidateSize(true)
+      
+      // Wait for all map tiles to fully load
+      await new Promise(resolve => {
+        let tilesLoading = 0
+        let tilesLoaded = 0
+        
+        const checkTilesLoaded = () => {
+          if (tilesLoading === tilesLoaded) {
+            setTimeout(resolve, 1000) // Extra buffer for rendering
+          }
+        }
+
+        // Track tile loading events
+        map.eachLayer((layer: any) => {
+          if (layer._url) { // This is a tile layer
+            layer.on('tileloadstart', () => {
+              tilesLoading++
+            })
+            layer.on('tileload', () => {
+              tilesLoaded++
+              checkTilesLoaded()
+            })
+            layer.on('tileerror', () => {
+              tilesLoaded++
+              checkTilesLoaded()
+            })
+          }
+        })
+
+        // Fallback timeout
+        setTimeout(resolve, 3000)
+      })
+
+      // Capture the entire map div with enhanced settings
+      const canvas = await html2canvas(mapRef.current, {
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: 'transparent',
+        scale: 2, // High quality
+        logging: false,
+        width: mapRef.current.offsetWidth,
+        height: mapRef.current.offsetHeight,
+        scrollX: 0,
+        scrollY: 0,
+        x: 0,
+        y: 0,
+        foreignObjectRendering: false, // Better for map elements
+        imageTimeout: 15000,
+        removeContainer: false,
+        ignoreElements: (element) => {
+          // Only ignore controls we don't want in the capture
+          return element.classList.contains('leaflet-control-zoom')
+        },
+        onclone: (clonedDoc, element) => {
+          // Apply critical fixes for map positioning in the cloned document
+          const clonedMapContainer = clonedDoc.querySelector('.leaflet-container') as HTMLElement
+          if (clonedMapContainer) {
+            // Reset all transforms that might cause positioning issues
+            clonedMapContainer.style.transform = 'none !important'
+            clonedMapContainer.style.position = 'relative'
+            clonedMapContainer.style.left = '0'
+            clonedMapContainer.style.top = '0'
+            
+            // Fix all panes
+            const allPanes = clonedMapContainer.querySelectorAll('.leaflet-pane')
+            allPanes.forEach((pane: Element) => {
+              const htmlPane = pane as HTMLElement
+              htmlPane.style.transform = 'translate3d(0px, 0px, 0px) !important'
+              htmlPane.style.left = '0'
+              htmlPane.style.top = '0'
+            })
+
+            // Specifically fix the map pane which contains the tiles
+            const mapPane = clonedMapContainer.querySelector('.leaflet-map-pane') as HTMLElement
+            if (mapPane) {
+              mapPane.style.transform = 'translate3d(0px, 0px, 0px) !important'
+              mapPane.style.left = '0'
+              mapPane.style.top = '0'
+            }
+
+            // Fix marker and overlay panes
+            const markerPane = clonedMapContainer.querySelector('.leaflet-marker-pane') as HTMLElement
+            if (markerPane) {
+              markerPane.style.transform = 'translate3d(0px, 0px, 0px) !important'
+            }
+
+            const overlayPane = clonedMapContainer.querySelector('.leaflet-overlay-pane') as HTMLElement
+            if (overlayPane) {
+              overlayPane.style.transform = 'translate3d(0px, 0px, 0px) !important'
+            }
+          }
+        }
+      })
+
+      // Generate filename with office and date info
+      const selectedOfficeName = selectedOfficeData?.office_name || 'office'
+      const dateStr = new Date().toISOString().split('T')[0]
+      const timeStr = new Date().toTimeString().split(' ')[0].replace(/:/g, '-')
+      const filename = `kmlytics-${selectedOfficeName.replace(/\s+/g, '-').toLowerCase()}-${dateStr}-${timeStr}.png`
+
+      // Create download link
+      const link = document.createElement('a')
+      link.download = filename
+      link.href = canvas.toDataURL('image/png', 1.0)
+      
+      // Trigger download
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+
+      // Show success message
+      setCaptureSuccess(true)
+      setError('')
+      
+      // Hide success message after 3 seconds
+      setTimeout(() => setCaptureSuccess(false), 3000)
+    } catch (err) {
+      setError('Failed to capture map. Please try again.')
+      console.error('Map capture error:', err)
+    } finally {
+      setCaptureLoading(false)
     }
   }
 
@@ -309,6 +468,22 @@ export function MapView() {
             </div>
           </div>
 
+          {/* Map Style Toggle */}
+          <div className="flex items-center justify-between">
+            <div>
+              <label className="block text-sm font-medium mb-2">Map Style</label>
+              <Select value={mapStyle} onValueChange={(value: 'street' | 'satellite') => setMapStyle(value)}>
+                <SelectTrigger className="w-40">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="street">Street Map</SelectItem>
+                  <SelectItem value="satellite">Satellite</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
           {/* Legend */}
           <div className="flex items-center gap-6 text-sm">
             <div className="flex items-center gap-2">
@@ -329,20 +504,106 @@ export function MapView() {
         </CardContent>
       </Card>
 
+      {/* Map Capture Button */}
+      {selectedOfficeData && suppliers.length > 0 && (
+        <div className="flex justify-end space-x-4">
+          {captureSuccess && (
+            <div className="flex items-center text-green-400 text-sm font-medium bg-green-400/10 px-4 py-2 rounded-lg border border-green-400/30">
+              <Download className="w-4 h-4 mr-2" />
+              Map captured successfully!
+            </div>
+          )}
+          
+          <Button 
+            onClick={captureMap}
+            disabled={captureLoading}
+            className="bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-700 hover:to-teal-700 text-white font-medium shadow-lg hover:shadow-cyan-500/25 transition-all duration-300 transform hover:scale-105"
+          >
+            {captureLoading ? (
+              <>
+                <Spinner size="sm" className="mr-2" />
+                Capturing Map...
+              </>
+            ) : (
+              <>
+                <Camera className="w-4 h-4 mr-2" />
+                Capture Map as PNG
+              </>
+            )}
+          </Button>
+        </div>
+      )}
+
       {/* Map */}
       <Card>
         <CardContent className="p-0">
-          <div className="w-full h-96 md:h-[600px] rounded-lg overflow-hidden">
+          <div 
+            ref={mapRef}
+            className="w-full h-96 md:h-[600px] rounded-lg overflow-hidden relative"
+            style={{ 
+              position: 'relative',
+              overflow: 'hidden'
+            }}
+          >
+            {/* Map Info Overlay for Captured Image */}
+            <div className="absolute top-4 left-4 z-[1000] bg-black/80 backdrop-blur-sm rounded-xl p-4 text-white text-sm pointer-events-none map-overlay">
+              <div className="flex items-center space-x-2 mb-2">
+                <div className="relative">
+                  <div className="w-6 h-6 bg-gradient-to-br from-cyan-400 to-teal-500 rounded-lg flex items-center justify-center">
+                    <MapPin className="w-4 h-4 text-white" />
+                  </div>
+                  <div className="absolute -top-1 -left-1 w-2 h-2 border border-dashed border-cyan-400 rounded-full opacity-60"></div>
+                </div>
+                <span className="font-bold">Kmlytics</span>
+              </div>
+              
+              {selectedOfficeData && (
+                <div className="space-y-1">
+                  <div className="font-medium text-cyan-400">Analysis Overview</div>
+                  <div>Office: {selectedOfficeData.office_name}</div>
+                  <div>Coverage Radius: {radius[0]} km</div>
+                  <div>Suppliers: {suppliers.length}</div>
+                  <div>In Coverage: {suppliers.filter(s => {
+                    const distance = haversine(
+                      selectedOfficeData.latitude,
+                      selectedOfficeData.longitude,
+                      s.latitude,
+                      s.longitude
+                    )
+                    return distance <= radius[0]
+                  }).length}</div>
+                  <div className="text-xs text-gray-300 mt-2">
+                    Generated: {new Date().toLocaleDateString()}
+                  </div>
+                </div>
+              )}
+            </div>
+
             <MapContainer
               center={getMapCenter()}
               zoom={6}
-              style={{ height: '100%', width: '100%' }}
-              className="rounded-lg"
+              style={{ 
+                height: '100%', 
+                width: '100%',
+                position: 'relative',
+                zIndex: 1
+              }}
+              className="rounded-lg map-container"
+              preferCanvas={true}
             >
-              <TileLayer
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              />
+              <MapCapture onCapture={handleMapReady} />
+              {mapStyle === 'street' ? (
+                <TileLayer
+                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+              ) : (
+                <TileLayer
+                  attribution='&copy; <a href="https://www.esri.com/">Esri</a>, Earthstar Geographics'
+                  url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+                  maxZoom={19}
+                />
+              )}
               {renderMapContent()}
             </MapContainer>
           </div>

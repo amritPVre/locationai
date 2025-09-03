@@ -145,3 +145,39 @@
   border-radius: 0.375rem !important;
   border: none !important;
 }
+
+/* Map capture optimization */
+.map-container .leaflet-container {
+  position: relative !important;
+  transform: none !important;
+}
+
+.map-container .leaflet-pane {
+  position: absolute !important;
+  transform: none !important;
+}
+
+.map-container .leaflet-map-pane {
+  position: relative !important;
+  transform: none !important;
+}
+
+.map-overlay {
+  position: absolute !important;
+  z-index: 1000 !important;
+}
+
+/* Ensure proper rendering during capture */
+.map-container * {
+  transform-style: flat !important;
+  will-change: auto !important;
+}
+
+/* Fix for marker positioning in captures */
+.map-container .leaflet-marker-pane {
+  transform: none !important;
+}
+
+.map-container .leaflet-overlay-pane {
+  transform: none !important;
+}
