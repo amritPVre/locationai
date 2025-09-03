@@ -7,7 +7,7 @@ interface SEOHeadProps {
   canonicalUrl?: string
   ogImage?: string
   structuredData?: any
-  page?: 'home' | 'blog' | 'forum' | 'dashboard' | 'about'
+  page?: 'home' | 'blog' | 'forum' | 'dashboard' | 'about' | 'privacy' | 'terms' | 'cancellation' | 'contact' | 'shipping' | 'instructions'
 }
 
 export function SEOHead({ 
