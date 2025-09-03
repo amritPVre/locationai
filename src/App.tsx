@@ -5,6 +5,10 @@ import { Dashboard } from '@/components/Dashboard'
 import { AdminDashboard } from '@/components/AdminDashboard'
 import { LandingPage } from '@/components/LandingPage'
 import { PrivacyPolicy } from '@/components/PrivacyPolicy'
+import { TermsConditions } from '@/components/TermsConditions'
+import { CancellationRefunds } from '@/components/CancellationRefunds'
+import { ContactUs } from '@/components/ContactUs'
+import { ShippingPolicy } from '@/components/ShippingPolicy'
 import { Blog } from '@/components/Blog'
 import { Forum } from '@/components/Forum'
 import { Instructions } from '@/components/Instructions'
@@ -13,7 +17,7 @@ import { Spinner } from '@/components/ui/spinner'
 import { HelmetProvider } from 'react-helmet-async'
 import { SEOHead } from '@/components/SEO/SEOHead'
 
-type AppView = 'landing' | 'auth' | 'dashboard' | 'admin' | 'privacy' | 'blog' | 'forum' | 'instructions' | 'subscription'
+type AppView = 'landing' | 'auth' | 'dashboard' | 'admin' | 'privacy' | 'terms' | 'cancellation' | 'contact' | 'shipping' | 'blog' | 'forum' | 'instructions' | 'subscription'
 
 function AppContent() {
   const { user, loading, isAdmin } = useAuth()
@@ -80,6 +84,10 @@ function AppContent() {
           <LandingPage 
             onGetStarted={() => setCurrentView('auth')}
             onPrivacyClick={() => setCurrentView('privacy')}
+            onTermsClick={() => setCurrentView('terms')}
+            onContactClick={() => setCurrentView('contact')}
+            onCancellationClick={() => setCurrentView('cancellation')}
+            onShippingClick={() => setCurrentView('shipping')}
             onBlogClick={() => setCurrentView('blog')}
             onForumClick={() => setCurrentView('forum')}
             onInstructionsClick={() => setCurrentView('instructions')}
@@ -117,6 +125,34 @@ function AppContent() {
         />
       )
     
+    case 'terms':
+      return (
+        <TermsConditions 
+          onBack={() => setCurrentView('landing')}
+        />
+      )
+    
+    case 'cancellation':
+      return (
+        <CancellationRefunds 
+          onBack={() => setCurrentView('landing')}
+        />
+      )
+    
+    case 'contact':
+      return (
+        <ContactUs 
+          onBack={() => setCurrentView('landing')}
+        />
+      )
+    
+    case 'shipping':
+      return (
+        <ShippingPolicy 
+          onBack={() => setCurrentView('landing')}
+        />
+      )
+    
     case 'instructions':
       return <Instructions onBack={() => setCurrentView('landing')} />
     
@@ -125,6 +161,10 @@ function AppContent() {
         <LandingPage 
           onGetStarted={() => setCurrentView('auth')}
           onPrivacyClick={() => setCurrentView('privacy')}
+          onTermsClick={() => setCurrentView('terms')}
+          onContactClick={() => setCurrentView('contact')}
+          onCancellationClick={() => setCurrentView('cancellation')}
+          onShippingClick={() => setCurrentView('shipping')}
           onBlogClick={() => setCurrentView('blog')}
           onForumClick={() => setCurrentView('forum')}
           onInstructionsClick={() => setCurrentView('instructions')}

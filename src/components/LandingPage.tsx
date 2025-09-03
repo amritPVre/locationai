@@ -22,12 +22,26 @@ import {
 interface LandingPageProps {
   onGetStarted: () => void
   onPrivacyClick?: () => void
+  onTermsClick?: () => void
+  onContactClick?: () => void
+  onCancellationClick?: () => void
+  onShippingClick?: () => void
   onBlogClick?: () => void
   onForumClick?: () => void
   onInstructionsClick?: () => void
 }
 
-export function LandingPage({ onGetStarted, onPrivacyClick, onBlogClick, onForumClick, onInstructionsClick }: LandingPageProps) {
+export function LandingPage({ 
+  onGetStarted, 
+  onPrivacyClick, 
+  onTermsClick,
+  onContactClick,
+  onCancellationClick,
+  onShippingClick,
+  onBlogClick, 
+  onForumClick, 
+  onInstructionsClick 
+}: LandingPageProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const scrollToSection = (sectionId: string) => {
@@ -736,8 +750,22 @@ export function LandingPage({ onGetStarted, onPrivacyClick, onBlogClick, onForum
               <ul className="space-y-2 text-gray-400">
                 <li><a href="#" className="hover:text-white transition-colors">About</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Careers</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Contact</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Blog</a></li>
+                <li>
+                  <button 
+                    onClick={onContactClick}
+                    className="hover:text-white transition-colors"
+                  >
+                    Contact
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    onClick={onBlogClick}
+                    className="hover:text-white transition-colors"
+                  >
+                    Blog
+                  </button>
+                </li>
               </ul>
             </div>
 
@@ -753,9 +781,30 @@ export function LandingPage({ onGetStarted, onPrivacyClick, onBlogClick, onForum
                     Privacy Policy
                   </button>
                 </li>
-                <li><a href="#" className="hover:text-white transition-colors">Terms of Service</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">GDPR</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Security</a></li>
+                <li>
+                  <button 
+                    onClick={onTermsClick}
+                    className="hover:text-white transition-colors"
+                  >
+                    Terms & Conditions
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    onClick={onCancellationClick}
+                    className="hover:text-white transition-colors"
+                  >
+                    Cancellation & Refunds
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    onClick={onShippingClick}
+                    className="hover:text-white transition-colors"
+                  >
+                    Shipping Policy
+                  </button>
+                </li>
               </ul>
             </div>
           </div>
